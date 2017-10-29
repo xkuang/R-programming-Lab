@@ -1,0 +1,40 @@
+---
+title: "section 1"
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r}
+## Import the Data set
+## CHANGE THE DIRECTORY OF THE DATA.  MAKE SURE THAT YOU USE \\ OR / 
+library(readxl)
+Alcohol_abuse <- read_excel("~/Downloads/Alcohol abuse .xlsx")
+View(Alcohol_abuse)
+## examine the first few rows of the dataset college
+head(Alcohol_abuse,20)
+tail(Alcohol_abuse)
+##Descriptive summary of the college
+summary(Alcohol_abuse)
+
+## what does first Qu and 3rd Qu mean?
+
+library(dplyr)
+newdata = dplyr::select(Alcohol_abuse, abuse, age, educ) 
+#pairs(newdata)
+
+##libraries
+#library(car)
+#Boxplot(abuse~., data=newdata, id.method="y")
+
+## correlations
+#library(corrplot)
+#correlations <- cor(newdata[,c("age","educ")], use="complete")
+#corrplot(correlations, order = "hclust")
+
+model1 = glm(abuse~educ,data=newdata,family='binomial')
+model2 = glm(abuse~.,data=newdata,family='binomial')
+
+summary(model1)
+summary(model2)
+```
+
