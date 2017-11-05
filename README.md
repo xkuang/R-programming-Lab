@@ -4,11 +4,11 @@ This R lab is affiliated with the course Applied Analytics Frameworks and Method
 
 Agenda:
 
-10/28 R lab section 1 intro to library(dplyr) and logistic regression
+10/28 R lab section 1 statistical analysis: intro to library(dplyr) and logistic regression
 
-11/04 R lab section 2 tree, and random forest
+11/04 R lab section 2 machine learning 1: tree, and random forest
 
-11/11 R lab section 3 machine learning: clustering
+11/11 R lab section 3 machine learning 2: clustering
 
 11/18 R lab section 4 natural language processing: text mining
 
