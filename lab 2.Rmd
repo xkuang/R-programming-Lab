@@ -1,0 +1,48 @@
+---
+title: "backorder"
+output: html_document
+---
+```{r}
+library(readr)
+samplefinal <- read_csv("~/Downloads/samplefinal.csv")
+data<-samplefinal 
+#str(data)
+#summary(data)
+```
+
+```{r}
+library(caTools)
+set.seed(100)
+split = sample.split(data$went_on_backorder,SplitRatio = 0.9)
+train = data[split,]
+test = data[!split,]
+```
+
+```{r}
+library(dplyr)
+train<-select(train,-sku)
+train<- na.omit(train)
+```
+
+```{r}
+##### Model data - Decision Tree #####
+library(rpart)
+# Classification Tree
+tree1 = rpart(went_on_backorder~.,train,method='class') 
+# for regression tree, use default method='anova'
+summary(tree1)
+```
+
+```{r}
+##### Random Forests #####
+library(randomForest)
+set.seed(100)
+forest = randomForest(factor(went_on_backorder)~.,data=train,ntree=10)
+plot(forest)
+getTree(forest,1,labelVar = T)
+importance(forest) # or varImp(bag)
+varImpPlot(forest)
+hist(treesize(forest))
+```
+
+
