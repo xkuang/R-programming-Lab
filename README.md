@@ -1,6 +1,6 @@
 # R-programming-Lab
 
-This R lab is affilieted with the course Applied Analytics Frameworks and Methods in master program Applied Analytics in Columbia University.
+This R lab is affiliated with the course Applied Analytics Frameworks and Methods in master program Applied Analytics in Columbia University.
 
 Agenda:
 
