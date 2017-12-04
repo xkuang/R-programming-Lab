@@ -1,0 +1,92 @@
+---
+title: "deveriable2"
+author: "Jenna"
+date: "2017Äê12ÔÂ2ÈÕ"
+output: html_document
+---
+```{r}
+## Import the Data set
+## CHANGE THE DIRECTORY OF THE DATA.  MAKE SURE THAT YOU USE \\ OR / 
+library(readxl)
+Alcohol_abuse_<- read_excel("Alcohol abuse .xlsx")
+
+#Cobmine columns (health)
+ Alcohol_abuse_$fairhealth<- as.numeric(Alcohol_abuse_$fairhealth)
+ Alcohol_abuse_$exhealth<- as.numeric(Alcohol_abuse_$exhealth)
+ Alcohol_abuse_$vghealth<- as.numeric(Alcohol_abuse_$vghealth)
+ Alcohol_abuse_$goodhealth<- as.numeric(Alcohol_abuse_$goodhealth)
+ 
+ Alcohol_abuse_$exhealth[which(Alcohol_abuse_$exhealth==1)]= 4
+ Alcohol_abuse_$vghealth[which(Alcohol_abuse_$vghealth==1)]= 3
+ Alcohol_abuse_$goodhealth[which(Alcohol_abuse_$goodhealth==1)]= 2
+ Alcohol_abuse_$fairhealth[which(Alcohol_abuse_$fairhealth==1)]= 1
+ Alcohol_abuse_$health <- Alcohol_abuse_$exhealth+ Alcohol_abuse_$vghealth+ Alcohol_abuse_$goodhealth+ Alcohol_abuse_$fairhealth
+ #Rename (city)
+ Alcohol_abuse_$centcity<- as.numeric(Alcohol_abuse_$centcity)
+  Alcohol_abuse_$outercity<- as.numeric(Alcohol_abuse_$outercity)
+  
+Alcohol_abuse_$centcity[which(Alcohol_abuse_$centcity==1)]= 2
+Alcohol_abuse_$outercity[which(Alcohol_abuse_$outercity==1)]= 1
+  
+Alcohol_abuse_$city <- Alcohol_abuse_$centcity+ Alcohol_abuse_$outercity
+ 
+Alcohol_abuse_$city[which(Alcohol_abuse_$city==2)]= "central"
+Alcohol_abuse_$city[which(Alcohol_abuse_$city==1)]= "outer"
+ 
+
+library(dplyr)
+newdata = dplyr::select(Alcohol_abuse_, abuse, age, educ,status, unemrate, married, famsize, beertax, cigtax, ethanol, fathalc, livealc, health, city) 
+#pairs(newdata)
+
+##libraries
+#library(car)
+#Boxplot(abuse~., data=newdata, id.method="y")
+
+## correlations
+#library(corrplot)
+#correlations <- cor(newdata[,c("age","educ")], use="complete")
+#corrplot(correlations, order = "hclust")
+
+model1 = glm(abuse~educ,data=newdata,family='binomial')
+model2 = glm(abuse~.,data=newdata,family='binomial')
+model3 = glm(abuse~ educ + famsize +ethanol+ fathalc,data=newdata,family='binomial')
+
+summary(model1)
+summary(model2)
+summary(model3)
+
+#slide 49
+anova(model1, model2, test="Chisq")
+
+
+
+pred.model1=data.frame(abuse=newdata$abuse, Pred=predict(model1,type="response"))
+pred.model1$PredClass=ifelse(pred.model1$Pred > 0.5, "1","0")
+
+##slide 53 & 55
+library(pROC)
+rocCurve <- roc(response = pred.model1$abuse, predictor = pred.model1$Pred, levels = c(0,1))
+plot(rocCurve, legacy.axes = TRUE)
+
+#slide 54 & 55
+library(caret)
+pred.model1$PredClass <- as.factor(pred.model1$PredClass)
+confusionMatrix(data =pred.model1$PredClass, reference = pred.model1$abuse, positive = "1")
+
+
+pred.model3=data.frame(abuse=newdata$abuse, Pred=predict(model3,type="response"))
+pred.model3$PredClass=ifelse(pred.model3$Pred > 0.5, "1","0")
+
+##slide 53 & 55
+library(pROC)
+rocCurve <- roc(response = pred.model3$abuse, predictor = pred.model3$Pred, levels = c(0,1))
+plot(rocCurve, legacy.axes = TRUE)
+
+#slide 54 & 55
+library(caret)
+pred.model3$PredClass <- as.factor(pred.model3$PredClass)
+confusionMatrix(data =pred.model3$PredClass, reference = pred.model3$abuse, positive = "1")
+
+
+```
+
