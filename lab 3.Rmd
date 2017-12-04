@@ -1,9 +1,4 @@
----
-title: "deveriable2"
-author: "Jenna"
-date: "2017Äê12ÔÂ2ÈÕ"
-output: html_document
----
+
 ```{r}
 ## Import the Data set
 ## CHANGE THE DIRECTORY OF THE DATA.  MAKE SURE THAT YOU USE \\ OR / 
