@@ -1,7 +1,7 @@
 ---
 title: "deveriable2"
 author: "Jenna"
-date: "2017Äê12ÔÂ2ÈÕ"
+date: "2017Ã„Ãª12Ã”Ã‚2ÃˆÃ•"
 output: html_document
 ---
 ```{r}
@@ -55,20 +55,15 @@ summary(model1)
 summary(model2)
 summary(model3)
 
-#slide 49
 anova(model1, model2, test="Chisq")
-
-
 
 pred.model1=data.frame(abuse=newdata$abuse, Pred=predict(model1,type="response"))
 pred.model1$PredClass=ifelse(pred.model1$Pred > 0.5, "1","0")
 
-##slide 53 & 55
 library(pROC)
 rocCurve <- roc(response = pred.model1$abuse, predictor = pred.model1$Pred, levels = c(0,1))
 plot(rocCurve, legacy.axes = TRUE)
 
-#slide 54 & 55
 library(caret)
 pred.model1$PredClass <- as.factor(pred.model1$PredClass)
 confusionMatrix(data =pred.model1$PredClass, reference = pred.model1$abuse, positive = "1")
@@ -77,12 +72,10 @@ confusionMatrix(data =pred.model1$PredClass, reference = pred.model1$abuse, posi
 pred.model3=data.frame(abuse=newdata$abuse, Pred=predict(model3,type="response"))
 pred.model3$PredClass=ifelse(pred.model3$Pred > 0.5, "1","0")
 
-##slide 53 & 55
 library(pROC)
 rocCurve <- roc(response = pred.model3$abuse, predictor = pred.model3$Pred, levels = c(0,1))
 plot(rocCurve, legacy.axes = TRUE)
 
-#slide 54 & 55
 library(caret)
 pred.model3$PredClass <- as.factor(pred.model3$PredClass)
 confusionMatrix(data =pred.model3$PredClass, reference = pred.model3$abuse, positive = "1")
@@ -90,3 +83,4 @@ confusionMatrix(data =pred.model3$PredClass, reference = pred.model3$abuse, posi
 
 ```
 
+# how can we fix the imbalanced data problem?
